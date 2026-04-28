@@ -173,3 +173,48 @@ function gradeCertificationQuiz(id, levelTitle){
 window.addEventListener('load',()=>{
   document.querySelectorAll('.quiz[id^="level_"]').forEach(q=>setupCertificationQuiz(q.id));
 });
+
+function generateSafetyContract(){
+  const required = Array.from(document.querySelectorAll('[data-contract-required]'));
+  const missing = required.filter(cb => !cb.checked);
+  const name = (document.getElementById('contract-name')?.value || '').trim();
+  const section = (document.getElementById('contract-section')?.value || '').trim();
+  const date = (document.getElementById('contract-date')?.value || '').trim();
+  const signature = (document.getElementById('contract-signature')?.value || '').trim();
+  const status = document.getElementById('contract-status');
+  const output = document.getElementById('contract-output');
+
+  if(!name || !date || !signature){
+    status.className = 'contract-status retry';
+    status.textContent = 'Please enter your full name, date, and digital signature before generating the contract.';
+    output.classList.remove('show');
+    return;
+  }
+  if(missing.length > 0){
+    status.className = 'contract-status retry';
+    status.textContent = `Please check every agreement box before generating the contract. Missing: ${missing.length}.`;
+    output.classList.remove('show');
+    return;
+  }
+
+  const contractId = 'LS-SAFETY-' + new Date().toISOString().replace(/[-:.TZ]/g,'').slice(0,14) + '-' + Math.random().toString(36).slice(2,7).toUpperCase();
+  document.querySelector('[data-contract-name]').textContent = name;
+  document.querySelector('[data-contract-section]').textContent = section || 'Not provided';
+  document.querySelector('[data-contract-date]').textContent = new Date(date + 'T00:00:00').toLocaleDateString();
+  document.querySelector('[data-contract-signature]').textContent = signature;
+  document.querySelector('[data-contract-id]').textContent = contractId;
+  status.className = 'contract-status pass';
+  status.innerHTML = `Safety contract generated. Contract ID: <span class="cert-id">${contractId}</span>. Use the button below to print or save as PDF, then upload it to Google Classroom.`;
+  output.classList.add('show');
+  output.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function printSafetyContract(){
+  const output = document.getElementById('contract-output');
+  if(output && output.classList.contains('show')) window.print();
+}
+window.addEventListener('load',()=>{
+  const date = document.getElementById('contract-date');
+  if(date && !date.value){
+    date.value = new Date().toISOString().split('T')[0];
+  }
+});

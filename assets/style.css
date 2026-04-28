@@ -284,3 +284,36 @@ canvas.sim-canvas{width:100%;height:260px;border-radius:18px;background:linear-g
 @keyframes fallConfetti{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
 .locked-reminder{background:#fff1f0;border-left:7px solid #b42318;border-radius:18px;padding:16px;margin:18px 0}
 .cert-meta .cert-id-line{min-width:240px}
+
+.contract-checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:18px 0}
+.contract-checklist label{
+  display:flex;gap:10px;align-items:flex-start;background:#f7fbff;border:1px solid var(--line);
+  border-radius:16px;padding:13px;font-weight:750
+}
+.contract-checklist input[type=checkbox]{margin-top:4px;transform:scale(1.15)}
+.contract-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:18px 0}
+.contract-inputs label{font-weight:900;color:var(--blue)}
+.contract-inputs input{
+  width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--line);
+  font-size:1rem;margin-top:6px;background:white
+}
+.contract-output{
+  display:none;margin:28px auto;max-width:980px;background:white;border:10px solid var(--blue);
+  outline:5px solid var(--green);border-radius:28px;padding:40px;box-shadow:var(--shadow)
+}
+.contract-output.show{display:block}
+.contract-output h2{text-align:center;font-size:clamp(2rem,4vw,3.5rem);margin-bottom:8px}
+.contract-output .contract-sub{text-align:center;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.12em}
+.contract-output .contract-name{text-align:center;font-size:2rem;font-weight:1000;color:var(--ink);margin:20px 0;border-bottom:3px solid var(--yellow);padding-bottom:8px}
+.contract-output .contract-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin:24px 0}
+.contract-output .contract-box{border-top:2px solid var(--line);padding-top:8px}
+.contract-status{display:none;margin:16px 0;padding:14px 16px;border-radius:16px;font-weight:900}
+.contract-status.pass{display:block;background:rgba(51,204,102,.18);color:#0b6630}
+.contract-status.retry{display:block;background:rgba(255,204,0,.22);color:#6e5200}
+.signature-line{margin-top:30px;border-top:2px solid var(--ink);padding-top:8px;font-weight:900}
+@media print{
+  body *{visibility:hidden}
+  .contract-output,.contract-output *{visibility:visible}
+  .contract-output{display:block!important;position:absolute;left:0;top:0;width:100%;max-width:none;box-shadow:none;border-radius:0;outline:0}
+  .site-header,.footer,.print-btn{display:none!important}
+}
